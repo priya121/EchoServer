@@ -7,10 +7,6 @@ public class EchoServer {
         this.io = io;
     }
 
-    public String write() {
-        return input;
-    }
-
     public void start() {
         io.showOutput("Type in text to echo\nEnter quit to exit the program: \n");
         String currentInput = io.getInput();
@@ -24,5 +20,9 @@ public class EchoServer {
 
     private boolean isNotQuit(String nextInput) {
         return !nextInput.equals("quit");
+    }
+
+    public String write() {
+        return input;
     }
 }
