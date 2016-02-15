@@ -12,12 +12,12 @@ public class EchoServer {
     }
 
     public void start() {
-        io.showOutput("Enter quit to exit the program: ");
+        io.showOutput("Type in text to echo\nEnter quit to exit the program: \n");
         String currentInput = io.getInput();
         while (isNotQuit(currentInput)) {
             input += currentInput + "\n";
             io.showOutput(input);
-            currentInput =  io.getInput();
+            currentInput = io.getInput();
         }
         io.showOutput("Exiting the program");
     }
