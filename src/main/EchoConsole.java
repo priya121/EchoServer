@@ -1,10 +1,12 @@
+package main;
+
 import java.io.*;
 
 public class EchoConsole implements IOConsole {
     private final BufferedReader input;
     private final PrintStream output;
 
-    EchoConsole(InputStream input, PrintStream output) {
+    public EchoConsole(InputStream input, PrintStream output) {
         this.input = new BufferedReader(new InputStreamReader(input));
         this.output = output;
     }
