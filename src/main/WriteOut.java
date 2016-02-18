@@ -1,6 +1,9 @@
 package main;
 
-import java.io.*;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.file.*;
 
 public class WriteOut {
 
@@ -10,20 +13,24 @@ public class WriteOut {
         this.io = io;
     }
 
-    public void readFromFile(String fileToRead) {
+    public void readFromFile(String fileToRead) throws IOException {
         FileReader fileReader = null;
         try {
             fileReader = new FileReader(fileToRead);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        String output = "";
-
-        output = convertsToString(fileReader, output);
-        io.showOutput(output);
+        convertsToString(fileReader);
+        io.showOutput(convertsToString(fileReader));
+        try {
+            fileChanged(fileReader);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
-    private String convertsToString(FileReader fileReader, String output) {
+    private String convertsToString(FileReader fileReader) {
+        String output = "";
         int i = 0;
         try {
             while ((i = fileReader.read()) != -1) {
@@ -33,6 +40,24 @@ public class WriteOut {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        io.showOutput(output);
         return output;
+    }
+
+    public void fileChanged(FileReader reader) throws InterruptedException, IOException {
+        final Path path = FileSystems.getDefault().getPath("/Users/priyapatil/Work");
+        try (final WatchService watchService = FileSystems.getDefault().newWatchService()) {
+            final WatchKey watchKey = path.register(watchService, StandardWatchEventKinds.ENTRY_MODIFY);
+            while (true) {
+                WatchKey key = watchService.take();
+                for (WatchEvent<?> event : key.pollEvents()) {
+                    final Path changed = (Path) event.context();
+                    if (changed.endsWith("hello.txt")) {
+                        convertsToString(reader);
+                    }
+                }
+                watchKey.reset();
+            }
+        }
     }
 }

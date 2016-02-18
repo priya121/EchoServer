@@ -4,7 +4,7 @@ import java.io.IOException;
 
 public class App {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
        String filePath = "/Users/priyapatil/Work/hello.txt";
 
         IOConsole console = new EchoConsole(System.in, System.out);
