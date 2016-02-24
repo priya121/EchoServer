@@ -20,8 +20,6 @@ public class WriteOut {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        convertsToString(fileReader);
-        io.showOutput(convertsToString(fileReader));
         try {
             fileChanged(fileReader);
         } catch (InterruptedException e) {
@@ -47,17 +45,21 @@ public class WriteOut {
     public void fileChanged(FileReader reader) throws InterruptedException, IOException {
         final Path path = FileSystems.getDefault().getPath("/Users/priyapatil/Work");
         try (final WatchService watchService = FileSystems.getDefault().newWatchService()) {
-            final WatchKey watchKey = path.register(watchService, StandardWatchEventKinds.ENTRY_MODIFY);
-            while (true) {
-                WatchKey key = watchService.take();
-                for (WatchEvent<?> event : key.pollEvents()) {
-                    final Path changed = (Path) event.context();
-                    if (changed.endsWith("hello.txt")) {
-                        convertsToString(reader);
-                    }
+            updateOutput(reader, path, watchService);
+        }
+    }
+
+    private void updateOutput(FileReader reader, Path path, WatchService watchService) throws IOException, InterruptedException {
+        final WatchKey watchKey = path.register(watchService, new WatchEvent.Kind[]{StandardWatchEventKinds.ENTRY_MODIFY});
+        while (true) {
+            WatchKey key = watchService.take();
+            for (WatchEvent<?> event : key.pollEvents()) {
+                final Path changed = (Path) event.context();
+                if (changed.endsWith("hello.txt")) {
+                    convertsToString(reader);
                 }
-                watchKey.reset();
             }
+            watchKey.reset();
         }
     }
 }
