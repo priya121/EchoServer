@@ -5,7 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.*;
 
-public class WriteOut {
+public class WriteOut implements Out {
 
     private IOConsole io;
 
@@ -13,23 +13,23 @@ public class WriteOut {
         this.io = io;
     }
 
-    public void readFromFile(String fileToRead) throws IOException {
+    public void writeDataOut(String dataToRead) throws IOException {
         FileReader fileReader = null;
         try {
-            fileReader = new FileReader(fileToRead);
+            fileReader = new FileReader(dataToRead);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
         try {
-            fileChanged(fileReader);
+            checkFileChange(fileReader);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
 
-    private String convertsToString(FileReader fileReader) {
+    private String convertToString(FileReader fileReader) {
         String output = "";
-        int i = 0;
+        int i;
         try {
             while ((i = fileReader.read()) != -1) {
                 char ch = (char) i;
@@ -42,7 +42,7 @@ public class WriteOut {
         return output;
     }
 
-    public void fileChanged(FileReader reader) throws InterruptedException, IOException {
+    public void checkFileChange(FileReader reader) throws InterruptedException, IOException {
         final Path path = FileSystems.getDefault().getPath("/Users/priyapatil/Work");
         try (final WatchService watchService = FileSystems.getDefault().newWatchService()) {
             updateOutput(reader, path, watchService);
@@ -50,13 +50,13 @@ public class WriteOut {
     }
 
     private void updateOutput(FileReader reader, Path path, WatchService watchService) throws IOException, InterruptedException {
-        final WatchKey watchKey = path.register(watchService, new WatchEvent.Kind[]{StandardWatchEventKinds.ENTRY_MODIFY});
+        final WatchKey watchKey = path.register(watchService, StandardWatchEventKinds.ENTRY_MODIFY);
         while (true) {
             WatchKey key = watchService.take();
             for (WatchEvent<?> event : key.pollEvents()) {
                 final Path changed = (Path) event.context();
                 if (changed.endsWith("hello.txt")) {
-                    convertsToString(reader);
+                    convertToString(reader);
                 }
             }
             watchKey.reset();

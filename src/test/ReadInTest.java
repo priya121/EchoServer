@@ -16,14 +16,14 @@ public class ReadInTest {
     @Test
     public void readsHelloHowAreYouToFile() throws IOException {
         ReadIn echoHello = getReadIn(helloFile, "Hello\nhow\nare\nyou\nquit\n");
-        echoHello.inputToFile();
+        echoHello.readDataIn();
         Assert.assertTrue(read("/Users/priyapatil/Work/hello.txt", 100).contains("Hello\nhow\nare\nyou"));
     }
 
     @Test
     public void readsGoodbyeHowAreYouToFile() throws IOException {
         ReadIn echoGoodbye = getReadIn(goodbyeFile, "Goodbye\nquit\n");
-        echoGoodbye.inputToFile();
+        echoGoodbye.readDataIn();
         Assert.assertTrue(read("/Users/priyapatil/Work/Goodbye.txt", 100).contains("Goodbye"));
     }
 

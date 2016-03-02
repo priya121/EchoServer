@@ -2,7 +2,7 @@ package main;
 
 import java.io.*;
 
-public class ReadIn {
+public class ReadIn implements In {
     private final IOConsole io;
     private final String inputFilePath;
 
@@ -11,7 +11,7 @@ public class ReadIn {
         this.inputFilePath = inputFilePath;
     }
 
-    public void inputToFile() throws IOException {
+    public void readDataIn() throws IOException {
         io.showOutput("Type in text to write to file:\nType quit to exit\n");
         String currentInput = io.getInput();
         while (notQuit(currentInput)) {

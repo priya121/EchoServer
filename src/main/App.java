@@ -5,18 +5,20 @@ import java.io.IOException;
 public class App {
 
     public static void main(String[] args) throws IOException {
-       String filePath = "/Users/priyapatil/Work/hello.txt";
-
+        String IPAddress = "localhost";
+        int port = 5000;
         IOConsole console = new EchoConsole(System.in, System.out);
-        ReadIn inputReader = new ReadIn(filePath, console);
-        WriteOut writeFileContents = new WriteOut(console);
+        Server server = new Server(port, console);
+        Client client = new Client(IPAddress, port, console);
+
 
         if (args[0].equals("in")) try {
-            inputReader.inputToFile();
+            client.writeDataOut("");
         } catch (IOException e) {
             console.showOutput("Invalid input");
             e.printStackTrace();
         }
-        else if (args[0].equals("out")) writeFileContents.readFromFile(filePath);
+        else if (args[0].equals("out"))
+            server.readDataIn();
     }
 }

@@ -1,6 +1,8 @@
 package test;
 
+import junit.framework.Assert;
 import main.EchoConsole;
+import main.ReadIn;
 import main.WriteOut;
 import org.junit.Test;
 
@@ -16,16 +18,25 @@ public class WriteOutTest {
 
     @Test
     public void writesOutputFromAFile() throws IOException {
+        String helloFile = "/Users/priyapatil/Work/hello.txt";
         WriteOut output = new WriteOut(console);
-        output.readFromFile("/Users/priyapatil/Work/hello.txt");
-        assertEquals("Hello\nhow\nare\nyou\n", recordedOutputStream.toString());
+        output.writeDataOut(helloFile);
+        ReadIn echoHello = getReadIn(helloFile, "quit\n");
+        echoHello.readDataIn();
+        Assert.assertEquals(actualOutput.toString(), "Hello\nhow\nare\nyou\nquit\n");
     }
 
     @Test
     public void writesGoodbyeTextFromAFile() throws IOException {
         WriteOut output = new WriteOut(console);
-        output.readFromFile("/Users/priyapatil/Work/goodbye.txt");
+        output.writeDataOut("/Users/priyapatil/Work/goodbye.txt");
         assertEquals("Goodbye\n", recordedOutputStream.toString());
+    }
+
+    private ReadIn getReadIn(String file, String input) {
+        InputStream helloInput = new ByteArrayInputStream(input.getBytes());
+        EchoConsole console = new EchoConsole(helloInput, actualOutput);
+        return new ReadIn(file, console);
     }
 }
 
