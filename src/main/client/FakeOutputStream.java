@@ -1,9 +1,9 @@
 package main.client;
 
-public class FakeDataOutput implements DataOutput {
+public class FakeOutputStream implements DataOutput {
     private String word = "";
 
-    public FakeDataOutput() {
+    public FakeOutputStream() {
     }
 
     @Override

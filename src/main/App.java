@@ -18,7 +18,7 @@ public class App {
 
         if (args[0].equals("in")) try {
             ConnectionSocket realSocket = new RealSocket(new Socket(IPAddress, port));
-            OutputStreamCreator outputStreamCreator = new RealDataOutputCreator();
+            OutputStreamCreator outputStreamCreator = new RealOutputStreamCreator();
             client.writeDataOut(realSocket, outputStreamCreator);
         } catch (IOException e) {
             console.showOutput("Invalid input");

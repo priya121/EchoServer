@@ -3,10 +3,10 @@ package main.client;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-public class RealDataOutput implements DataOutput {
+public class RealOutputStream implements DataOutput {
     private DataOutputStream dataOutputStream;
 
-    public RealDataOutput(DataOutputStream dataOutputStream) {
+    public RealOutputStream(DataOutputStream dataOutputStream) {
         this.dataOutputStream = dataOutputStream;
     }
 
