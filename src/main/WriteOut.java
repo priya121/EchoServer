@@ -13,7 +13,7 @@ public class WriteOut {
         this.io = io;
     }
 
-    public void readFromFile(String fileToRead) throws IOException {
+    public void readFromFile(String fileToRead, Path path) throws IOException {
         FileReader fileReader = null;
         try {
             fileReader = new FileReader(fileToRead);
@@ -21,7 +21,7 @@ public class WriteOut {
             e.printStackTrace();
         }
         try {
-            fileChanged(fileReader);
+            fileChanged(fileReader, path);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -29,7 +29,7 @@ public class WriteOut {
 
     private String convertsToString(FileReader fileReader) {
         String output = "";
-        int i = 0;
+        int i;
         try {
             while ((i = fileReader.read()) != -1) {
                 char ch = (char) i;
@@ -42,8 +42,7 @@ public class WriteOut {
         return output;
     }
 
-    public void fileChanged(FileReader reader) throws InterruptedException, IOException {
-        final Path path = FileSystems.getDefault().getPath("/Users/priyapatil/Work");
+    public void fileChanged(FileReader reader, Path path) throws InterruptedException, IOException {
         try (final WatchService watchService = FileSystems.getDefault().newWatchService()) {
             updateOutput(reader, path, watchService);
         }
