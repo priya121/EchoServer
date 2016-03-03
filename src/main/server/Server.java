@@ -1,4 +1,6 @@
-package main;
+package main.server;
+
+import main.IOConsole;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -24,9 +26,12 @@ public class Server implements In {
             Socket clientSocket = serverSocket.accept();
             BufferedReader inFromClient = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             DataOutputStream outToClient = new DataOutputStream(clientSocket.getOutputStream());
-            clientMessage = inFromClient.readLine();
-            io.showOutput(clientMessage + "\n");
-            outToClient.writeBytes(clientMessage);
+            while (!inFromClient.readLine().contains("quit")) {
+                clientMessage = inFromClient.readLine();
+                io.showOutput(clientMessage + "\n");
+                clientMessage = inFromClient.readLine();
+                outToClient.writeBytes(clientMessage);
+            }
         }
     }
 }

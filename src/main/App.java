@@ -1,19 +1,25 @@
 package main;
 
+import main.client.*;
+import main.server.Server;
+
 import java.io.IOException;
+import java.net.Socket;
 
 public class App {
 
     public static void main(String[] args) throws IOException {
         String IPAddress = "localhost";
-        int port = 5000;
+        int port = 44444;
         IOConsole console = new EchoConsole(System.in, System.out);
         Server server = new Server(port, console);
-        Client client = new Client(IPAddress, port, console);
+        Client client = new Client(console);
 
 
         if (args[0].equals("in")) try {
-            client.writeDataOut("");
+            ConnectionSocket realSocket = new RealSocket(new Socket(IPAddress, port));
+            OutputStreamCreator outputStreamCreator = new RealDataOutputCreator();
+            client.writeDataOut(realSocket, outputStreamCreator);
         } catch (IOException e) {
             console.showOutput("Invalid input");
             e.printStackTrace();
@@ -22,3 +28,4 @@ public class App {
             server.readDataIn();
     }
 }
+
