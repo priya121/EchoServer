@@ -1,5 +1,3 @@
-package test;
-
 import main.EchoConsole;
 import main.ReadIn;
 import org.junit.Assert;

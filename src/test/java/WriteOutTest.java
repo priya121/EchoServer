@@ -1,5 +1,3 @@
-package test;
-
 import main.EchoConsole;
 import main.WriteOut;
 import org.junit.Test;

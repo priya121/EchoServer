@@ -1,5 +1,3 @@
-package main;
-
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -29,7 +27,7 @@ public class WriteOut {
 
     private String convertsToString(FileReader fileReader) {
         String output = "";
-        int i = 0;
+        int i;
         try {
             while ((i = fileReader.read()) != -1) {
                 char ch = (char) i;
